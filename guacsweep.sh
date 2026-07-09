@@ -175,15 +175,38 @@ do_snapshot_thinning() {
 # --- Startup banner ---
 
 clear
-echo "${BOLD}🥑  guacsweep: Keeping your Mac ripe${RESET}"
-echo ""
-printf '%-22s%s\n' '      ___' ""
-printf '%-22s%s\n' '    /     \' "+--------------------------------------------------------------+"
-printf '%-22s%s\n' '   /  ___  \' "| Nothing here is destructive by default.                      |"
-printf '%-22s%s\n' '  |  /   \  |' "| Every option below moves files to the Trash first, not       |"
-printf '%-22s%s\n' '  |  \___/  |' "| permanent deletion, except the one clearly marked below.     |"
-printf '%-22s%s\n' '   \       /' "| You'll always get a chance to confirm before anything runs.  |"
-printf '%-22s%s\n' '    \_____/' "+--------------------------------------------------------------+"
+if command -v figlet >/dev/null 2>&1; then
+  figlet_output=$(figlet guacsweep)
+  if command -v lolcat >/dev/null 2>&1; then
+    echo "$figlet_output" | lolcat
+  else
+    echo "$figlet_output"
+  fi
+  echo ""
+  fig_width=$(echo "$figlet_output" | awk '{ print length }' | sort -rn | head -1)
+  tagline="Keeping your Mac ripe 🥑"
+  tagline_len=${#tagline}
+  pad=$(( (fig_width - tagline_len) / 2 ))
+  [ "$pad" -lt 0 ] && pad=0
+  printf "%${pad}s%s\n" "" "$tagline"
+  echo ""
+  echo "+--------------------------------------------------------------+"
+  printf '| %-60s |\n' "Nothing here is destructive by default."
+  printf '| %-60s |\n' "Every option below moves files to the Trash first, not"
+  printf '| %-60s |\n' "permanent deletion, except the one clearly marked below."
+  printf '| %-60s |\n' "You'll always get a chance to confirm before anything runs."
+  echo "+--------------------------------------------------------------+"
+else
+  echo "${BOLD}🥑  guacsweep: Keeping your Mac ripe${RESET}"
+  echo ""
+  printf '%-22s%s\n' '      ___' ""
+  printf '%-22s%s\n' '    /     \' "+--------------------------------------------------------------+"
+  printf '%-22s%s\n' '   /  ___  \' "| Nothing here is destructive by default.                      |"
+  printf '%-22s%s\n' '  |  /   \  |' "| Every option below moves files to the Trash first, not       |"
+  printf '%-22s%s\n' '  |  \___/  |' "| permanent deletion, except the one clearly marked below.     |"
+  printf '%-22s%s\n' '   \       /' "| You'll always get a chance to confirm before anything runs.  |"
+  printf '%-22s%s\n' '    \_____/' "+--------------------------------------------------------------+"
+fi
 
 trap 'echo ""; echo "❎  Cancelled with Ctrl+C. Back to the menu."; continue' SIGINT
 
