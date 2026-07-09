@@ -1,10 +1,15 @@
-<img src="docs/avatar.png" width="80" align="left" />
+<table>
+<tr>
+<td><img src="docs/avatar.png" width="80" /></td>
+<td>
 
 # guacsweep
 
-<br clear="left"/>
-
 **A lean and transparent terminal-only macOS maintenance tool.**
+
+</td>
+</tr>
+</table>
 
 guacsweep is a single, dependency-free bash script that clears the junk CleanMyMac X clears, without the subscription, the closed source, the bloat, or the compiled binary. It empties caches and logs, clears recent-items and history traces, thins Time Machine snapshots, and scans for orphaned app data left behind by things you've long since uninstalled. Every action moves files to the Trash first, never straight deletion, except one clearly marked option that empties the Trash itself.
 
