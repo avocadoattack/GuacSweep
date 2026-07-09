@@ -38,6 +38,8 @@ options=(
   "System Junk (User Caches + Logs)"
   "System Caches (sudo, /Library/Caches)"
   "Recent Items"
+  "Clear Terminal History"
+  "Clear Download History"
   "Snapshot Thinning (Time Machine)"
   "Leftover Sweep (orphaned app data)"
   "──────── ⚠️  destructive below ────────"
@@ -122,6 +124,57 @@ do
         echo "✅  Moved ${#recent_items[@]} item(s) to Trash:"
         echo "    $batch"
         echo "    Review or restore anytime before running Empty Trash."
+      else
+        echo "❎  Skipped — nothing touched."
+      fi
+      ;;
+    "Clear Terminal History")
+      echo "🧹  This clears your shell command history (~/.zsh_history and ~/.bash_history)."
+      echo "    This is a running log of nearly every command you've typed — potentially"
+      echo "    privacy-sensitive (file paths, hostnames, occasionally a pasted secret)."
+      echo "    Note: your CURRENT open terminal session keeps its own history in memory,"
+      echo "    independent of the file on disk — for a fully clean sweep, do this from a"
+      echo "    window you're about to close, or open a fresh one afterward."
+      echo "    Nothing is deleted directly — everything moves to a dated folder inside Trash first."
+      read -p "Continue? [y/N] " confirm
+      if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        batch="$HOME/.Trash/guac-clean-terminal-history-$(date +%Y%m%d-%H%M%S)"
+        mkdir -p "$batch"
+        moved=0
+        for f in "$HOME/.zsh_history" "$HOME/.bash_history"; do
+          if [ -f "$f" ]; then
+            mv "$f" "$batch/" 2>/dev/null && moved=$((moved + 1))
+          fi
+        done
+        if [ "$moved" -eq 0 ]; then
+          echo "ℹ️  No shell history files found — nothing to clear."
+        else
+          echo "✅  Moved $moved history file(s) to Trash:"
+          echo "    $batch"
+          echo "    Review or restore anytime before running Empty Trash."
+        fi
+      else
+        echo "❎  Skipped — nothing touched."
+      fi
+      ;;
+    "Clear Download History")
+      echo "🧹  This clears macOS's download-quarantine metadata — the record of what you"
+      echo "    downloaded, from where, and when."
+      echo "    It does NOT delete any downloaded files themselves — only that tracking record."
+      echo "    Nothing is deleted directly — everything moves to a dated folder inside Trash first."
+      read -p "Continue? [y/N] " confirm
+      if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        qfile="$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"
+        if [ -e "$qfile" ]; then
+          batch="$HOME/.Trash/guac-clean-download-history-$(date +%Y%m%d-%H%M%S)"
+          mkdir -p "$batch"
+          mv "$qfile" "$batch/" 2>/dev/null
+          echo "✅  Moved download history to Trash:"
+          echo "    $batch"
+          echo "    Review or restore anytime before running Empty Trash."
+        else
+          echo "ℹ️  No download history file found — nothing to clear."
+        fi
       else
         echo "❎  Skipped — nothing touched."
       fi
