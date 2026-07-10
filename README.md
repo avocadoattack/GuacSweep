@@ -37,16 +37,48 @@ No Homebrew, toolchains, or third-party libraries needed. GuacSweep is plain POS
 
 ## 📦 Installation
 
-This is as simple as it gets:
+**🔹 Option A ➔ <ins>Clone the repo</ins>** (recommended if you want to read the whole thing first):
 
 ```bash
-git clone https://github.com/avocadoattack/guacsweep.git
-cd guacsweep
+git clone https://github.com/avocadoattack/GuacSweep.git
+cd GuacSweep
 chmod +x guacsweep.sh
+```
+
+**🔹 Option B ➔ <ins>Download just the script</ins>**:
+
+- With `curl`:
+```bash
+curl -o guacsweep.sh https://raw.githubusercontent.com/avocadoattack/GuacSweep/master/guacsweep.sh
+chmod +x guacsweep.sh
+```
+
+- With `wget`:
+```bash
+wget https://raw.githubusercontent.com/avocadoattack/GuacSweep/master/guacsweep.sh
+chmod +x guacsweep.sh
+```
+
+> [!IMPORTANT]
+> None of the commands above run anything, they only download the script and mark it executable. **Take a look at what you downloaded first** (`cat guacsweep.sh`, or open it in any editor) before going further, that's the entire reason this project exists as plain bash instead of a compiled binary.
+
+**🔹 Once you're satisfied, run it:**
+
+```bash
 ./guacsweep.sh
 ```
 
-That's it. No build step, no dependencies to resolve. Run it and confirm you see the menu.
+**📌 Optional ➔ Install it globally**, so you can just type `guacsweep` from *any* Terminal window instead of `./guacsweep.sh`:
+
+```bash
+curl -o /usr/local/bin/guacsweep https://raw.githubusercontent.com/avocadoattack/GuacSweep/master/guacsweep.sh
+chmod +x /usr/local/bin/guacsweep
+```
+
+> [!TIP]
+> If `/usr/local/bin` isn't writable on your system, prefix both commands with `sudo`. Same rule applies, take a look at `/usr/local/bin/guacsweep` before typing `guacsweep` for the first time.
+
+> **Updating:** there's no package manager yet, so updating just means re-running whichever download command you used above, it overwrites the old copy with the current version.
 
 ---
 
