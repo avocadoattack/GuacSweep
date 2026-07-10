@@ -34,6 +34,21 @@ Nothing here requires Homebrew, a compiled toolchain, or any third-party library
 
 ---
 
+## 📦 Installation
+
+No Homebrew formula yet. For now, this is as simple as it gets:
+
+```bash
+git clone https://github.com/avocadoattack/guacsweep.git
+cd guacsweep
+chmod +x guacsweep.sh
+./guacsweep.sh
+```
+
+That's it. No build step, no dependencies to resolve. Run it and confirm you see the menu, that's the whole install.
+
+---
+
 ## 🌱 Why I built this
 
 I used to have a one-time CleanMyMac X license, but I only used a few of its features. Instead of paying for a subscription cleaner or upgrading, I wanted something that did those same things for free, with no hidden catches.
