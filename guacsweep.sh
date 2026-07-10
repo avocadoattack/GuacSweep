@@ -1,5 +1,5 @@
 #!/bin/bash
-# guacsweep: a lean, transparent macOS maintenance script 🥑
+# GuacSweep: a lean, transparent macOS maintenance script 🥑
 
 if [ -t 1 ]; then
   BOLD=$(tput bold 2>/dev/null)
@@ -178,7 +178,7 @@ do_snapshot_thinning() {
 
 clear
 if command -v figlet >/dev/null 2>&1; then
-  figlet_output=$(figlet guacsweep)
+  figlet_output=$(figlet GuacSweep)
   if command -v lolcat >/dev/null 2>&1; then
     echo "$figlet_output" | lolcat
   else
@@ -204,7 +204,7 @@ if command -v figlet >/dev/null 2>&1; then
   printf '| %-60s |\n' "You'll always get a chance to confirm before anything runs."
   echo "+--------------------------------------------------------------+"
 else
-  echo "${BOLD}🥑  guacsweep: Keeping your Mac ripe${RESET}"
+  echo "${BOLD}🥑  GuacSweep: Keeping your Mac ripe${RESET}"
   echo "${ITALIC}Mashed by: Mr. Avocado aka avocadoattack (v1.0.0)${RESET}"
   echo ""
   printf '%-22s%s\n' '      ___' ""
