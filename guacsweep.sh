@@ -95,6 +95,10 @@ do_system_caches() {
   shopt -u nullglob dotglob
   if [ ${#sys_cache_items[@]} -gt 0 ]; then
     sudo mv "${sys_cache_items[@]}" "$batch/" 2>/dev/null
+    if [ "$INTERRUPTED" -eq 1 ]; then
+      echo "    Stopped early. Some items may not have moved."
+      return
+    fi
     sudo chown -R "$(whoami)" "$batch"
   fi
   echo "✅  Moved ${#sys_cache_items[@]} item(s) to Trash."
@@ -147,7 +151,15 @@ do_download_history() {
 
 do_flush_dns() {
   sudo dscacheutil -flushcache
+  if [ "$INTERRUPTED" -eq 1 ]; then
+    echo "    Stopped early."
+    return
+  fi
   sudo killall -HUP mDNSResponder
+  if [ "$INTERRUPTED" -eq 1 ]; then
+    echo "    Stopped early."
+    return
+  fi
   echo "✅  DNS cache flushed."
 }
 
@@ -166,7 +178,14 @@ do_snapshot_thinning() {
       else
         failed=$((failed + 1))
       fi
+      if [ "$INTERRUPTED" -eq 1 ]; then
+        break
+      fi
     done <<< "$snapshots"
+    if [ "$INTERRUPTED" -eq 1 ]; then
+      echo "    Stopped early. $success snapshot(s) removed before cancelling."
+      return
+    fi
     echo "✅  Removed $success local snapshot(s)."
     if [ "$failed" -gt 0 ]; then
       echo "⚠️  $failed snapshot(s) could not be removed. This can happen with in-use or protected snapshots."
@@ -216,9 +235,11 @@ else
   printf '%-22s%s\n' '    \_____/' "+--------------------------------------------------------------+"
 fi
 
-trap 'echo ""; echo "❎  Cancelled with Ctrl+C. Back to the menu."; continue' SIGINT
+INTERRUPTED=0
+trap 'INTERRUPTED=1; echo ""; echo "❎  Cancelled with Ctrl+C."' SIGINT
 
 while true; do
+  INTERRUPTED=0
   print_menu
   read -rp "Selection: " REPLY
 
@@ -517,32 +538,44 @@ while true; do
       echo "    password a few times along the way."
       read -p "Run all of these now? [y/N] " confirm
       if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        for _ in 1; do
+          echo ""
+          echo "▶  1/7  User Junk Files..."
+          do_user_junk
+          [ "$INTERRUPTED" -eq 1 ] && break
+          echo ""
+          echo "▶  2/7  System Junk Files (sudo)..."
+          sudo_notice
+          do_system_caches
+          [ "$INTERRUPTED" -eq 1 ] && break
+          echo ""
+          echo "▶  3/7  Recent Items..."
+          do_recent_items
+          [ "$INTERRUPTED" -eq 1 ] && break
+          echo ""
+          echo "▶  4/7  Terminal History..."
+          do_terminal_history
+          [ "$INTERRUPTED" -eq 1 ] && break
+          echo ""
+          echo "▶  5/7  Download History..."
+          do_download_history
+          [ "$INTERRUPTED" -eq 1 ] && break
+          echo ""
+          echo "▶  6/7  Flush DNS Cache..."
+          sudo_notice
+          do_flush_dns
+          [ "$INTERRUPTED" -eq 1 ] && break
+          echo ""
+          echo "▶  7/7  Time Machine Snapshot Thinning..."
+          sudo_notice
+          do_snapshot_thinning
+        done
         echo ""
-        echo "▶  1/7  User Junk Files..."
-        do_user_junk
-        echo ""
-        echo "▶  2/7  System Junk Files (sudo)..."
-        sudo_notice
-        do_system_caches
-        echo ""
-        echo "▶  3/7  Recent Items..."
-        do_recent_items
-        echo ""
-        echo "▶  4/7  Terminal History..."
-        do_terminal_history
-        echo ""
-        echo "▶  5/7  Download History..."
-        do_download_history
-        echo ""
-        echo "▶  6/7  Flush DNS Cache..."
-        sudo_notice
-        do_flush_dns
-        echo ""
-        echo "▶  7/7  Time Machine Snapshot Thinning..."
-        sudo_notice
-        do_snapshot_thinning
-        echo ""
-        echo "✅  Full Sweep complete."
+        if [ "$INTERRUPTED" -eq 1 ]; then
+          echo "    Full Sweep stopped early."
+        else
+          echo "✅  Full Sweep complete."
+        fi
       else
         echo "❎  Skipped, nothing touched."
       fi
@@ -560,9 +593,15 @@ while true; do
           if [ -d "$vol_trash" ]; then
             sudo_notice
             sudo rm -rf "$vol_trash"/*
+            if [ "$INTERRUPTED" -eq 1 ]; then
+              echo "    Stopped early. Some external drive Trash may remain."
+              break
+            fi
           fi
         done
-        echo "✅  Trash emptied."
+        if [ "$INTERRUPTED" -ne 1 ]; then
+          echo "✅  Trash emptied."
+        fi
       else
         echo "❎  Cancelled, Trash left untouched."
       fi
