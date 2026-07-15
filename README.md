@@ -1,25 +1,31 @@
-<table>
-<tr>
-<td><img src="docs/app-icon.png" width="80" /></td>
-<td>
+<p align="center">
+  <img src="docs/app-icon.png" width="120" />
+</p>
 
-# GuacSweep
+<h1 align="center">GuacSweep</h1>
 
-**A lean, transparent, safety-first, interactive CLI cleanup tool for macOS.**
+<p align="center">
+  <b>A lean, transparent, safety-first, interactive CLI cleanup tool for macOS.</b>
+</p>
 
-</td>
-</tr>
-</table>
+GuacSweep is a simple, dependency-free, interactive Bash script for the cleanup tasks I actually use regularly (the kind of thing tools like CleanMyMac X cover, but as a subscription, closed-source app). It clears caches, logs, recent items, history traces, trims Time Machine snapshots, and finds orphaned app data from old apps. Safety-first by design, files go to Trash before anything is permanently deleted.
 
-GuacSweep is a simple, dependency-free, interactive Bash script for the handful of cleanup tasks I actually use regularly (the kind of thing tools like CleanMyMac X cover, but as a subscription, closed-source app). It clears caches, logs, recent items, history traces, trims Time Machine snapshots, and finds orphaned app data from old apps. Safety-first by design, files go to Trash before anything is permanently deleted.
+<div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Shell](https://img.shields.io/badge/Shell-Bash%203.2%2B-4EAA25?logo=gnubash&logoColor=white)]()
-[![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)]()
 [![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)]()
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/avocadoattack/GuacSweep?label=Size)
-[![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy_Me_a_Coffee-FFDD00?logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/avocadoattack)
+[![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)]()
+
+</div>
+
+<div align="center">
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy_Me_a_Coffee-FFDD00?logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/avocadoattack)
 [![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/avocadoattack)
+
+</div>
 
 ![guacsweep demo](docs/demo.gif)
 
