@@ -25,8 +25,6 @@ GuacSweep is a simple, dependency-free, interactive Bash script for the cleanup 
 
 ![guacsweep demo](docs/demo.gif)
 
-*(Demo GIF coming soon)*
-
 ---
 
 ## 🔍 What it does
