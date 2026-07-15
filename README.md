@@ -16,7 +16,7 @@ GuacSweep is a simple, dependency-free, interactive Bash script for the cleanup 
 [![Shell](https://img.shields.io/badge/Shell-Bash%203.2%2B-4EAA25?logo=gnubash&logoColor=white)]()
 [![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)]()
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/avocadoattack/GuacSweep?label=Size)
-[![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)]()
+[![macOS](https://img.shields.io/badge/macOS-585858?logo=apple&logoColor=white)]()
 <br/>
 [![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy_Me_a_Coffee-FFDD00?logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/avocadoattack)
 [![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/avocadoattack)
