@@ -35,6 +35,8 @@ GuacSweep uses a simple numbered menu—one action at a time. Choose from ten op
 
 No Homebrew, toolchains, or third-party libraries needed. GuacSweep is plain POSIX-ish Bash, compatible with the ancient `bash 3.2`, which Apple still ships by default on every Mac. It runs as soon as you `chmod +x`.
 
+> Note: If you have `figlet` and `lolcat` installed, GuacSweep's banner will render as a colorful ASCII logo. Neither is required, and GuacSweep runs identically either way, and falls back to a simple plain-text banner if they're not present.
+
 ---
 
 ## 📦 Installation
