@@ -36,6 +36,14 @@ friendly_name() {
   echo "$name"
 }
 
+# Converts a path under $HOME to a ~-prefixed version, for display only.
+# Never used for the actual mv/mkdir operations, only for anything echoed
+# to the terminal, so a real system username never appears on-screen.
+display_path() {
+  local p="$1"
+  echo "${p/#$HOME/"~"}"
+}
+
 options=(
   "Delete User Junk Files (Cache + Logs)"
   "Delete System Junk Files (sudo)"
@@ -84,7 +92,7 @@ do_user_junk() {
     mv "${xcode_items[@]}" "$batch/Xcode/" 2>/dev/null
   fi
   echo "✅  Moved ${#cache_items[@]} cache item(s), ${#log_items[@]} log item(s), and ${#xcode_items[@]} Xcode DerivedData item(s) to Trash."
-  echo "    $batch"
+  echo "    $(display_path "$batch")"
 }
 
 do_system_caches() {
@@ -102,7 +110,7 @@ do_system_caches() {
     sudo chown -R "$(whoami)" "$batch"
   fi
   echo "✅  Moved ${#sys_cache_items[@]} item(s) to Trash."
-  echo "    $batch"
+  echo "    $(display_path "$batch")"
   echo "    A few items may be skipped if actively in use. That's normal."
 }
 
@@ -116,7 +124,7 @@ do_recent_items() {
     mv "${recent_items[@]}" "$batch/" 2>/dev/null
   fi
   echo "✅  Moved ${#recent_items[@]} item(s) to Trash."
-  echo "    $batch"
+  echo "    $(display_path "$batch")"
 }
 
 do_terminal_history() {
@@ -132,7 +140,7 @@ do_terminal_history() {
     echo "ℹ️  No shell history files found. Nothing to clear."
   else
     echo "✅  Moved $moved history file(s) to Trash."
-    echo "    $batch"
+    echo "    $(display_path "$batch")"
   fi
 }
 
@@ -143,7 +151,7 @@ do_download_history() {
     mkdir -p "$batch"
     mv "$qfile" "$batch/" 2>/dev/null
     echo "✅  Moved download history to Trash."
-    echo "    $batch"
+    echo "    $(display_path "$batch")"
   else
     echo "ℹ️  No download history file found. Nothing to clear."
   fi
@@ -210,7 +218,7 @@ if command -v figlet >/dev/null 2>&1; then
   pad=$(( (fig_width - tagline_len) / 2 ))
   [ "$pad" -lt 0 ] && pad=0
   printf "%${pad}s%s\n" "" "$tagline"
-  credit="Mashed by: Mr. Avocado aka avocadoattack (v1.0.1)"
+  credit="Mashed by: Mr. Avocado aka avocadoattack (v1.0.2)"
   credit_len=${#credit}
   credit_pad=$(( (fig_width - credit_len) / 2 ))
   [ "$credit_pad" -lt 0 ] && credit_pad=0
@@ -224,7 +232,7 @@ if command -v figlet >/dev/null 2>&1; then
   echo "+--------------------------------------------------------------+"
 else
   echo "${BOLD}🥑  GuacSweep: Keeping your Mac ripe${RESET}"
-  echo "${ITALIC}Mashed by: Mr. Avocado aka avocadoattack (v1.0.1)${RESET}"
+  echo "${ITALIC}Mashed by: Mr. Avocado aka avocadoattack (v1.0.2)${RESET}"
   echo ""
   printf '%-22s%s\n' '      ___' ""
   printf '%-22s%s\n' '    /     \' "+--------------------------------------------------------------+"
@@ -435,7 +443,7 @@ while true; do
           echo ""
           echo "-- Full raw list (for reference) --------------------------"
           for i in "${!orphan_paths[@]}"; do
-            echo "   [${orphan_labels[$i]}] ${orphan_paths[$i]}"
+            echo "   [${orphan_labels[$i]}] $(display_path "${orphan_paths[$i]}")"
           done
 
           # Group by unique bundle ID, no associative arrays (macOS ships bash 3.2 by default)
@@ -521,7 +529,7 @@ while true; do
               done
             done
             echo "✅  Moved $moved_total item(s) to Trash."
-            echo "    $batch"
+            echo "    $(display_path "$batch")"
           fi
         fi
       else
